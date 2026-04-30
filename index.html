@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- =====================================================
+         APEX WAR CUP - Free Fire Max Battle Royale Tournament
+         Premium eSports Tournament Landing Page
+         Built with pure HTML, CSS, JavaScript - No Frameworks
+         ===================================================== -->
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta name="theme-color" content="#0a0014" />
+    <meta name="description" content="Apex War Cup — Premium Free Fire Max Battle Royale Tournament. Register now and battle for glory." />
+    <meta name="keywords" content="Apex War Cup, Free Fire Max, Battle Royale, eSports Tournament, Veer Gaming" />
+    <meta name="author" content="Veer Gaming" />
+
+    <!-- Open Graph / Social Sharing Meta -->
+    <meta property="og:title" content="Apex War Cup — Free Fire Max Tournament" />
+    <meta property="og:description" content="Join the Apex War Cup — the ultimate Free Fire Max Battle Royale tournament." />
+    <meta property="og:type" content="website" />
+
+    <title>Apex War Cup — Free Fire Max Battle Royale Tournament</title>
+
+    <!-- Preconnect to Google Fonts for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Google Fonts: Cinzel Decorative (headings) + Cormorant Garamond (body) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Inline favicon (neon "A" mark) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='1'><stop offset='0%25' stop-color='%2300f0ff'/><stop offset='100%25' stop-color='%23ff00d4'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='%230a0014'/><text x='50%25' y='54%25' text-anchor='middle' font-family='serif' font-weight='900' font-size='42' fill='url(%23g)'>A</text></svg>" />
+</head>
+
+<body>
+
+    <!-- =====================================================
+         BACKGROUND LAYERS
+         (animated gradient, particles canvas, scan lines, grid)
+         ===================================================== -->
+    <div class="background-layers" aria-hidden="true">
+        <div class="bg-gradient"></div>
+        <div class="bg-grid"></div>
+        <div class="bg-scanlines"></div>
+        <div class="bg-vignette"></div>
+        <div class="bg-orb bg-orb--1"></div>
+        <div class="bg-orb bg-orb--2"></div>
+        <div class="bg-orb bg-orb--3"></div>
+        <canvas id="particles" class="bg-particles"></canvas>
+        <div class="bg-noise"></div>
+    </div>
+
+    <!-- =====================================================
+         CUSTOM CURSOR (desktop only, JS controlled)
+         ===================================================== -->
+    <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+    <!-- =====================================================
+         PRELOADER
+         ===================================================== -->
+    <div class="preloader" id="preloader" aria-hidden="true">
+        <div class="preloader__inner">
+            <div class="preloader__logo">
+                <span class="preloader__logo-text">APEX</span>
+                <span class="preloader__logo-text preloader__logo-text--alt">WAR</span>
+                <span class="preloader__logo-text">CUP</span>
+            </div>
+            <div class="preloader__bar">
+                <div class="preloader__bar-fill" id="preloaderFill"></div>
+            </div>
+            <div class="preloader__status" id="preloaderStatus">Booting Battle Servers&hellip; 0%</div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         NAVBAR — Liquid glass + flowing effect
+         ===================================================== -->
+    <header class="navbar" id="navbar">
+        <div class="navbar__liquid" aria-hidden="true">
+            <span class="liquid-blob liquid-blob--a"></span>
+            <span class="liquid-blob liquid-blob--b"></span>
+            <span class="liquid-blob liquid-blob--c"></span>
+        </div>
+
+        <div class="navbar__container">
+            <!-- Brand / Logo -->
+            <a href="#home" class="navbar__brand" data-scroll>
+                <span class="navbar__brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 48 48" width="36" height="36">
+                        <defs>
+                            <linearGradient id="brandGrad" x1="0" x2="1" y1="0" y2="1">
+                                <stop offset="0%" stop-color="#00f0ff" />
+                                <stop offset="100%" stop-color="#ff00d4" />
+                            </linearGradient>
+                        </defs>
+                        <polygon points="24,4 44,20 36,44 12,44 4,20"
+                            fill="none" stroke="url(#brandGrad)" stroke-width="2" />
+                        <polygon points="24,14 34,22 30,36 18,36 14,22"
+                            fill="url(#brandGrad)" opacity="0.25" />
+                        <text x="50%" y="58%" text-anchor="middle"
+                            font-family="Cinzel Decorative, serif"
+                            font-weight="900" font-size="14" fill="#fff">A</text>
+                    </svg>
+                </span>
+                <span class="navbar__brand-text">
+                    <span class="navbar__brand-title">Apex War Cup</span>
+                    <span class="navbar__brand-sub">Free Fire Max</span>
+                </span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="navbar__nav" id="navbarNav" aria-label="Primary navigation">
+                <ul class="navbar__list">
+                    <li class="navbar__item">
+                        <a href="#home" class="navbar__link is-active" data-scroll data-nav-link>
+                            <span class="navbar__link-text">Home</span>
+                            <span class="navbar__link-glow"></span>
+                        </a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="#tournament" class="navbar__link" data-scroll data-nav-link>
+                            <span class="navbar__link-text">Tournament</span>
+                            <span class="navbar__link-glow"></span>
+                        </a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="#rules" class="navbar__link" data-scroll data-nav-link>
+                            <span class="navbar__link-text">Rules</span>
+                            <span class="navbar__link-glow"></span>
+                        </a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="#register" class="navbar__link" data-scroll data-nav-link>
+                            <span class="navbar__link-text">Register</span>
+                            <span class="navbar__link-glow"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- CTA pill in navbar -->
+            <a href="https://www.instagram.com/veer.gaming.x?igsh=MTI3bWFpOXEyZnduNQ=="
+               target="_blank" rel="noopener noreferrer"
+               class="navbar__cta">
+                <span class="navbar__cta-text">Join Now</span>
+                <span class="navbar__cta-arrow" aria-hidden="true">&#10142;</span>
+            </a>
+
+            <!-- Mobile menu toggle -->
+            <button class="navbar__toggle" id="navbarToggle" aria-label="Toggle menu" aria-expanded="false">
+                <span class="navbar__toggle-bar"></span>
+                <span class="navbar__toggle-bar"></span>
+                <span class="navbar__toggle-bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+    <main class="main">
+
+        <!-- =================================================
+             HOME / HERO SECTION
+             ================================================= -->
+        <section class="section hero" id="home">
+            <div class="hero__bg" aria-hidden="true">
+                <div class="hero__bg-image"></div>
+                <div class="hero__bg-overlay"></div>
+                <div class="hero__bg-pulse"></div>
+            </div>
+
+            <div class="container hero__container">
+                <div class="hero__badge reveal" data-reveal>
+                    <span class="hero__badge-dot"></span>
+                    <span class="hero__badge-text">Season 01 &middot; Now Open</span>
+                </div>
+
+                <h1 class="hero__title reveal" data-reveal>
+                    <span class="hero__title-line hero__title-line--small">Welcome to the</span>
+                    <span class="hero__title-line hero__title-line--main" data-glitch="APEX WAR CUP">
+                        APEX WAR CUP
+                    </span>
+                    <span class="hero__title-line hero__title-line--small">Battle. Conquer. Rise.</span>
+                </h1>
+
+                <p class="hero__subtitle reveal" data-reveal>
+                    Free Fire Max &mdash; Battle Royale Tournament
+                </p>
+
+                <p class="hero__intro reveal" data-reveal>
+                    Step into the ultimate arena where elite squads collide, legends are forged
+                    in fire, and only the sharpest tacticians survive. The Apex War Cup brings
+                    together the most ferocious Free Fire Max players for a tournament built on
+                    skill, strategy, and pure adrenaline. Are you ready to claim your throne?
+                </p>
+
+                <div class="hero__actions reveal" data-reveal>
+                    <a href="#register" class="liquid-btn liquid-btn--primary" data-scroll>
+                        <span class="liquid-btn__bg" aria-hidden="true"></span>
+                        <span class="liquid-btn__blob liquid-btn__blob--1" aria-hidden="true"></span>
+                        <span class="liquid-btn__blob liquid-btn__blob--2" aria-hidden="true"></span>
+                        <span class="liquid-btn__blob liquid-btn__blob--3" aria-hidden="true"></span>
+                        <span class="liquid-btn__label">
+                            <span>Register Now</span>
+                            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                                <path fill="none" stroke="currentColor" stroke-width="2"
+                                      stroke-linecap="round" stroke-linejoin="round"
+                                      d="M5 12h14M13 5l7 7-7 7" />
+                            </svg>
+                        </span>
+                    </a>
+
+                    <a href="#tournament" class="liquid-btn liquid-btn--ghost" data-scroll>
+                        <span class="liquid-btn__bg" aria-hidden="true"></span>
+                        <span class="liquid-btn__blob liquid-btn__blob--1" aria-hidden="true"></span>
+                        <span class="liquid-btn__blob liquid-btn__blob--2" aria-hidden="true"></span>
+                        <span class="liquid-btn__label">
+                            <span>View Tournament</span>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Hero Stats -->
+                <ul class="hero__stats reveal" data-reveal>
+                    <li class="hero__stat">
+                        <span class="hero__stat-value" data-counter="48">0</span>
+                        <span class="hero__stat-label">Squad Slots</span>
+                    </li>
+                    <li class="hero__stat">
+                        <span class="hero__stat-value" data-counter="4">0</span>
+                        <span class="hero__stat-label">Players / Squad</span>
+                    </li>
+                    <li class="hero__stat">
+                        <span class="hero__stat-value" data-counter="12">0</span>
+                        <span class="hero__stat-label">Match Rounds</span>
+                    </li>
+                    <li class="hero__stat">
+                        <span class="hero__stat-value" data-counter="100" data-suffix="%">0</span>
+                        <span class="hero__stat-label">Pure Skill</span>
+                    </li>
+                </ul>
+
+                <!-- Scroll cue -->
+                <a href="#tournament" class="hero__scroll" data-scroll aria-label="Scroll to tournament section">
+                    <span class="hero__scroll-text">Scroll</span>
+                    <span class="hero__scroll-line">
+                        <span class="hero__scroll-dot"></span>
+                    </span>
+                </a>
+            </div>
+
+            <!-- Floating decorative shards -->
+            <div class="hero__shards" aria-hidden="true">
+                <span class="shard shard--1"></span>
+                <span class="shard shard--2"></span>
+                <span class="shard shard--3"></span>
+                <span class="shard shard--4"></span>
+                <span class="shard shard--5"></span>
+                <span class="shard shard--6"></span>
+            </div>
+        </section>
+
+        <!-- Section divider -->
+        <div class="section-divider" aria-hidden="true">
+            <span class="section-divider__line"></span>
+            <span class="section-divider__hex">&#9670;</span>
+            <span class="section-divider__line"></span>
+        </div>
+
+        <!-- =================================================
+             TOURNAMENT SECTION
+             ================================================= -->
+        <section class="section tournament" id="tournament">
+            <div class="container">
+
+                <header class="section-header reveal" data-reveal>
+                    <span class="section-eyebrow">
+                        <span class="section-eyebrow__bracket">[</span>
+                        02 &middot; Tournament
+                        <span class="section-eyebrow__bracket">]</span>
+                    </span>
+                    <h2 class="section-title">
+                        <span class="section-title-text" data-text="The Battlefield">The Battlefield</span>
+                    </h2>
+                    <p class="section-lead">
+                        Every match. Every map. Every drop. Built for warriors who play to win.
+                    </p>
+                </header>
+
+                <!-- Status Banner -->
+                <div class="status-banner reveal" data-reveal>
+                    <div class="status-banner__pulse" aria-hidden="true"></div>
+                    <div class="status-banner__content">
+                        <span class="status-banner__label">Registration Status</span>
+                        <span class="status-banner__value" id="statusValue">Available</span>
+                    </div>
+                    <div class="status-banner__meta">
+                        <span class="status-banner__meta-item">
+                            <span class="status-banner__meta-key">Mode</span>
+                            <span class="status-banner__meta-val">Squad &mdash; BR</span>
+                        </span>
+                        <span class="status-banner__meta-divider"></span>
+                        <span class="status-banner__meta-item">
+                            <span class="status-banner__meta-key">Region</span>
+                            <span class="status-banner__meta-val">Global</span>
+                        </span>
+                        <span class="status-banner__meta-divider"></span>
+                        <span class="status-banner__meta-item">
+                            <span class="status-banner__meta-key">Slots Left</span>
+                            <span class="status-banner__meta-val" id="slotsValue">12 / 48</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Tournament Cards Grid -->
+                <div class="cards-grid">
+
+                    <!-- Card: Game -->
+                    <article class="game-card reveal" data-reveal>
+                        <span class="game-card__corner game-card__corner--tl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--tr" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--bl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--br" aria-hidden="true"></span>
+                        <div class="game-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" width="36" height="36">
+                                <path d="M8 36l8-22 8 14 8-10 8 18z"
+                                      fill="none" stroke="currentColor" stroke-width="2"
+                                      stroke-linejoin="round" />
+                                <circle cx="24" cy="24" r="22" fill="none" stroke="currentColor"
+                                        stroke-width="1" stroke-dasharray="3 4" opacity="0.4" />
+                            </svg>
+                        </div>
+                        <h3 class="game-card__title">Game</h3>
+                        <p class="game-card__value">Free Fire Max</p>
+                        <p class="game-card__desc">
+                            High-fidelity Battle Royale with Ultra HD textures and fluid combat.
+                        </p>
+                    </article>
+
+                    <!-- Card: Mode -->
+                    <article class="game-card reveal" data-reveal>
+                        <span class="game-card__corner game-card__corner--tl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--tr" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--bl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--br" aria-hidden="true"></span>
+                        <div class="game-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" width="36" height="36">
+                                <circle cx="16" cy="16" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="32" cy="16" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="16" cy="32" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="32" cy="32" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3 class="game-card__title">Mode</h3>
+                        <p class="game-card__value">Squad &mdash; 4 Players</p>
+                        <p class="game-card__desc">
+                            Full squad battle royale. Communicate, coordinate, dominate.
+                        </p>
+                    </article>
+
+                    <!-- Card: Map -->
+                    <article class="game-card reveal" data-reveal>
+                        <span class="game-card__corner game-card__corner--tl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--tr" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--bl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--br" aria-hidden="true"></span>
+                        <div class="game-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" width="36" height="36">
+                                <circle cx="16" cy="16" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="32" cy="16" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="16" cy="32" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="32" cy="32" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3 class="game-card__title">Mode</h3>
+                        <p class="game-card__value">Squad &mdash; 4 Players</p>
+                        <p class="game-card__desc">
+                            Full squad battle royale. Communicate, coordinate, dominate.
+                        </p>
+                    </article>
+
+                    <!-- Card: Map -->
+                    <article class="game-card reveal" data-reveal>
+                        <span class="game-card__corner game-card__corner--tl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--tr" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--bl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--br" aria-hidden="true"></span>
+                        <div class="game-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" width="36" height="36">
+                                <path d="M8 12l10-4 12 4 10-4v28l-10 4-12-4-10 4z"
+                                      fill="none" stroke="currentColor" stroke-width="2"
+                                      stroke-linejoin="round"/>
+                                <path d="M18 8v28M30 12v28" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3 class="game-card__title">Map Pool</h3>
+                        <p class="game-card__value">Bermuda &middot; Purgatory &middot; Kalahari</p>
+                        <p class="game-card__desc">
+                            Rotating classic maps across rounds to test every playstyle.
+                        </p>
+                    </article>
+
+                    <!-- Card: Slots -->
+                    <article class="game-card reveal" data-reveal>
+                        <span class="game-card__corner game-card__corner--tl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--tr" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--bl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--br" aria-hidden="true"></span>
+                        <div class="game-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" width="36" height="36">
+                                <rect x="6" y="10" width="36" height="28" rx="4"
+                                      fill="none" stroke="currentColor" stroke-width="2"/>
+                                <path d="M14 18h20M14 24h20M14 30h12" fill="none"
+                                      stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3 class="game-card__title">Slots</h3>
+                        <p class="game-card__value">48 Squads</p>
+                        <p class="game-card__desc">
+                            Limited slots. First-come, first-served &mdash; secure yours fast.
+                        </p>
+                    </article>
+
+                    <!-- Card: Format -->
+                    <article class="game-card reveal" data-reveal>
+                        <span class="game-card__corner game-card__corner--tl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--tr" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--bl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--br" aria-hidden="true"></span>
+                        <div class="game-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" width="36" height="36">
+                                <path d="M24 4l6 12 14 2-10 10 2 14-12-6-12 6 2-14L4 18l14-2z"
+                                      fill="none" stroke="currentColor" stroke-width="2"
+                                      stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3 class="game-card__title">Format</h3>
+                        <p class="game-card__value">12 Match Rounds</p>
+                        <p class="game-card__desc">
+                            Points-based ranking system across all rounds determines the champion.
+                        </p>
+                    </article>
+
+                    <!-- Card: Platform -->
+                    <article class="game-card reveal" data-reveal>
+                        <span class="game-card__corner game-card__corner--tl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--tr" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--bl" aria-hidden="true"></span>
+                        <span class="game-card__corner game-card__corner--br" aria-hidden="true"></span>
+                        <div class="game-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 48 48" width="36" height="36">
+                                <rect x="14" y="4" width="20" height="40" rx="3"
+                                      fill="none" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="24" cy="38" r="2" fill="currentColor"/>
+                                <path d="M18 8h12" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3 class="game-card__title">Platform</h3>
+                        <p class="game-card__value">Mobile &mdash; Android / iOS</p>
+                        <p class="game-card__desc">
+                            Play on any compatible mobile device. Emulators strictly prohibited.
+                        </p>
+                    </article>
+
+                </div>
+
+                <!-- Tournament info row -->
+                <div class="info-row reveal" data-reveal>
+                    <div class="info-row__item">
+                        <span class="info-row__num">01</span>
+                        <h4 class="info-row__title">Lobby Briefing</h4>
+                        <p class="info-row__text">Squad captains receive room ID &amp; password 15 minutes before match start.</p>
+                    </div>
+                    <div class="info-row__item">
+                        <span class="info-row__num">02</span>
+                        <h4 class="info-row__title">Live Coordination</h4>
+                        <p class="info-row__text">Updates and instructions delivered through the official Veer Gaming channel.</p>
+                    </div>
+                    <div class="info-row__item">
+                        <span class="info-row__num">03</span>
+                        <h4 class="info-row__title">Result Validation</h4>
+                        <p class="info-row__text">All match results are verified via official screenshots and player IDs.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section divider -->
+        <div class="section-divider" aria-hidden="true">
+            <span class="section-divider__line"></span>
+            <span class="section-divider__hex">&#9670;</span>
+            <span class="section-divider__line"></span>
+        </div>
+
+        <!-- =================================================
+             RULES SECTION
+             ================================================= -->
+        <section class="section rules" id="rules">
+            <div class="container">
+
+                <header class="section-header reveal" data-reveal>
+                    <span class="section-eyebrow">
+                        <span class="section-eyebrow__bracket">[</span>
+                        03 &middot; Rules
+                        <span class="section-eyebrow__bracket">]</span>
+                    </span>
+                    <h2 class="section-title">
+                        <span class="section-title-text" data-text="The Code of War">The Code of War</span>
+                    </h2>
+                    <p class="section-lead">
+                        Read carefully. Violation of any rule results in immediate disqualification &mdash; no exceptions.
+                    </p>
+                </header>
+
+                <div class="rules-grid">
+
+                    <article class="rule-card reveal" data-reveal>
+                        <div class="rule-card__inner">
+                            <span class="rule-card__num">01</span>
+                            <div class="rule-card__body">
+                                <h3 class="rule-card__title">Eligibility</h3>
+                                <p class="rule-card__text">
+                                    All players must be 13 years or older. Squads must be registered
+                                    with valid in-game IDs. No mid-tournament substitutions allowed
+                                    once the bracket is locked.
+                                </p>
+                            </div>
+                        </div>
+                        <span class="rule-card__edge" aria-hidden="true"></span>
+                    </article>
+
+                    <article class="rule-card reveal" data-reveal>
+                        <div class="rule-card__inner">
+                            <span class="rule-card__num">02</span>
+                            <div class="rule-card__body">
+                                <h3 class="rule-card__title">Squad Composition</h3>
+                                <p class="rule-card__text">
+                                    Each squad must consist of exactly four (4) players. A team
+                                    captain is required and serves as the single point of contact
+                                    for all official communication.
+                                </p>
+                            </div>
+                        </div>
+                        <span class="rule-card__edge" aria-hidden="true"></span>
+                    </article>
+
+                    <article class="rule-card reveal" data-reveal>
+                        <div class="rule-card__inner">
+                            <span class="rule-card__num">03</span>
+                            <div class="rule-card__body">
+                                <h3 class="rule-card__title">Fair Play Policy</h3>
+                                <p class="rule-card__text">
+                                    Use of any third-party software, hacks, scripts, aim-bots,
+                                    wall-hacks, sensitivity boosters, or modded clients results in
+                                    permanent ban from this and all future Veer Gaming events.
+                                </p>
+                            </div>
+                        </div>
+                        <span class="rule-card__edge" aria-hidden="true"></span>
+                    </article>
+
+                    <article class="rule-card reveal" data-reveal>
+                        <div class="rule-card__inner">
+                            <span class="rule-card__num">04</span>
+                            <div class="rule-card__body">
+                                <h3 class="rule-card__title">Device Restrictions</h3>
+                                <p class="rule-card__text">
+                                    Mobile devices only. PC emulators (BlueStacks, GameLoop, etc.)
+                                    are strictly prohibited. iPad and tablet usage requires prior
+                                    written approval from organisers.
+                                </p>
+                            </div>
+                        </div>
+                        <span class="rule-card__edge" aria-hidden="true"></span>
+                    </article>
+
+                    <article class="rule-card reveal" data-reveal>
+                        <div class="rule-card__inner">
+                            <span class="rule-card__num">05</span>
+                            <div class="rule-card__body">
+                                <h3 class="rule-card__title">Punctuality</h3>
+                                <p class="rule-card__text">
+                                    Squads must report to the lobby at least 10 minutes before
+                                    scheduled match start. Squads absent at the 5-minute mark
+                                    forfeit their slot for that round.
+                                </p>
+                            </div>
+                        </div>
+                        <span class="rule-card__edge" aria-hidden="true"></span>
+                    </article>
+
+                    <article class="rule-card reveal" data-reveal>
+                        <div class="rule-card__inner">
+                            <span class="rule-card__num">06</span>
+                            <div class="rule-card__body">
+                                <h3 class="rule-card__title">Scoring System</h3>
+                                <p class="rule-card__text">
+                                    Booyah: +15 points. Each kill: +1 point. Placement points
+                                    awarded based on final standing per round. Combined points
+                                    across all rounds determine the champion squad.
+                                </p>
+                            </div>
+                        </div>
+                        <span class="rule-card__edge" aria-hidden="true"></span>
+                    </article>
+
+                    <article class="rule-card reveal" data-reveal>
+                        <div class="rule-card__inner">
+                            <span class="rule-card__num">07</span>
+                            <div class="rule-card__body">
+                                <h3 class="rule-card__title">Toxicity &amp; Conduct</h3>
+                                <p class="rule-card__text">
+                                    Hate speech, slurs, harassment, intentional team-killing or
+                                    griefing of any kind will not be tolerated. Decisions made by
+                                    the moderation team are final.
+                                </p>
+                            </div>
+                        </div>
+                        <span class="rule-card__edge" aria-hidden="true"></span>
+                    </article>
+
+                    <article class="rule-card reveal" data-reveal>
+                        <div class="rule-card__inner">
+                            <span class="rule-card__num">08</span>
+                            <div class="rule-card__body">
+                                <h3 class="rule-card__title">Disconnection Rule</h3>
+                                <p class="rule-card__text">
+                                    Network or device issues during a match are the player's own
+                                    responsibility. Matches will not be paused or restarted due to
+                                    individual disconnections.
+                                </p>
+                            </div>
+                        </div>
+                        <span class="rule-card__edge" aria-hidden="true"></span>
+                    </article>
+
+                    <article class="rule-card reveal" data-reveal>
+                        <div class="rule-card__inner">
+                            <span class="rule-card__num">09</span>
+                            <div class="rule-card__body">
+                                <h3 class="rule-card__title">Streaming &amp; Content</h3>
+                                <p class="rule-card__text">
+                                    Players may stream their own POV with a minimum 2-minute delay.
+                                    Spectator-mode streaming is restricted to officially appointed
+                                    Veer Gaming casters only.
+                                </p>
+                            </div>
+                        </div>
+                        <span class="rule-card__edge" aria-hidden="true"></span>
+                    </article>
+
+                    <article class="rule-card reveal" data-reveal>
+                        <div class="rule-card__inner">
+                            <span class="rule-card__num">10</span>
+                            <div class="rule-card__body">
+                                <h3 class="rule-card__title">Final Authority</h3>
+                                <p class="rule-card__text">
+                                    Veer Gaming reserves the right to amend, modify, or interpret
+                                    any rule at any time. All disputes are resolved by the
+                                    organiser, and decisions are final and binding.
+                                </p>
+                            </div>
+                        </div>
+                        <span class="rule-card__edge" aria-hidden="true"></span>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section divider -->
+        <div class="section-divider" aria-hidden="true">
+            <span class="section-divider__line"></span>
+            <span class="section-divider__hex">&#9670;</span>
+            <span class="section-divider__line"></span>
+        </div>
+        
+        <!-- =================================================
+             REGISTER SECTION
+             ================================================= -->
+        <section class="section register" id="register">
+            <div class="container">
+
+                <header class="section-header reveal" data-reveal>
+                    <span class="section-eyebrow">
+                        <span class="section-eyebrow__bracket">[</span>
+                        04 &middot; Register
+                        <span class="section-eyebrow__bracket">]</span>
+                    </span>
+                    <h2 class="section-title">
+                        <span class="section-title-text" data-text="Enter the Arena">Enter the Arena</span>
+                    </h2>
+                    <p class="section-lead">
+                        Slots are limited. The arena waits for no one. Lock in your squad before
+                        the gates close.
+                    </p>
+                </header>
+
+                <div class="register-panel reveal" data-reveal>
+                    <div class="register-panel__bg" aria-hidden="true">
+                        <span class="register-panel__bg-orb"></span>
+                        <span class="register-panel__bg-orb register-panel__bg-orb--alt"></span>
+                    </div>
+
+                    <div class="register-panel__content">
+                        <p class="register-panel__kicker">Ready to compete?</p>
+                        <h3 class="register-panel__title">
+                            DM Veer Gaming on Instagram to <span>secure your squad slot</span>.
+                        </h3>
+                        <p class="register-panel__text">
+                            Click the button below and you'll be taken straight to our official
+                            Instagram. Send us your Squad Name, Captain ID, and player IGNs to
+                            confirm your registration.
+                        </p>
+
+                        <ul class="register-panel__steps">
+                            <li class="register-panel__step">
+                                <span class="register-panel__step-num">1</span>
+                                <span class="register-panel__step-text">Tap the Register button</span>
+                            </li>
+                            <li class="register-panel__step">
+                                <span class="register-panel__step-num">2</span>
+                                <span class="register-panel__step-text">Open Instagram DM</span>
+                            </li>
+                            <li class="register-panel__step">
+                                <span class="register-panel__step-num">3</span>
+                                <span class="register-panel__step-text">Send your squad details</span>
+                            </li>
+                            <li class="register-panel__step">
+                                <span class="register-panel__step-num">4</span>
+                                <span class="register-panel__step-text">Receive confirmation &amp; lobby code</span>
+                            </li>
+                        </ul>
+
+                        <div class="register-panel__cta">
+                            <a href="https://www.instagram.com/veer.gaming.x?igsh=MTI3bWFpOXEyZnduNQ=="
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="liquid-btn liquid-btn--mega"
+                               id="registerBtn">
+                                <span class="liquid-btn__bg" aria-hidden="true"></span>
+                                <span class="liquid-btn__blob liquid-btn__blob--1" aria-hidden="true"></span>
+                                <span class="liquid-btn__blob liquid-btn__blob--2" aria-hidden="true"></span>
+                                <span class="liquid-btn__blob liquid-btn__blob--3" aria-hidden="true"></span>
+                                <span class="liquid-btn__blob liquid-btn__blob--4" aria-hidden="true"></span>
+                                <span class="liquid-btn__label">
+                                    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                                        <path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.42.56.22.96.48 1.38.9.42.42.68.82.9 1.38.17.42.37 1.06.42 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.42 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.17-1.06.37-2.23.42-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.42-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.17-.42-.37-1.06-.42-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.42-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.17 1.06-.37 2.23-.42C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.15 0-3.52 0-4.76.07-1.07.05-1.65.23-2.04.38-.51.2-.88.44-1.27.83-.39.39-.63.76-.83 1.27-.15.39-.33.97-.38 2.04C2.65 8.48 2.65 8.85 2.65 12s0 3.52.07 4.76c.05 1.07.23 1.65.38 2.04.2.51.44.88.83 1.27.39.39.76.63 1.27.83.39.15.97.33 2.04.38 1.24.06 1.61.07 4.76.07s3.52 0 4.76-.07c1.07-.05 1.65-.23 2.04-.38.51-.2.88-.44 1.27-.83.39-.39.63-.76.83-1.27.15-.39.33-.97.38-2.04.06-1.24.07-1.61.07-4.76s0-3.52-.07-4.76c-.05-1.07-.23-1.65-.38-2.04-.2-.51-.44-.88-.83-1.27-.39-.39-.76-.63-1.27-.83-.39-.15-.97-.33-2.04-.38C15.52 4 15.15 4 12 4z"/>
+                                        <path fill="currentColor" d="M12 7.4a4.6 4.6 0 100 9.2 4.6 4.6 0 000-9.2zm0 1.8a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z"/>
+                                        <circle fill="currentColor" cx="17.2" cy="6.8" r="1.1"/>
+                                    </svg>
+                                    <span>Register Now</span>
+                                </span>
+                            </a>
+                            <p class="register-panel__cta-meta">
+                                <span class="register-panel__cta-dot"></span>
+                                Opens Instagram &middot; <strong>@veer.gaming.x</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+    <footer class="footer" id="footer">
+        <div class="footer__bg" aria-hidden="true"></div>
+        <div class="container footer__container">
+
+            <div class="footer__top">
+                <a href="#home" class="footer__brand" data-scroll>
+                    <span class="footer__brand-mark" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" width="42" height="42">
+                            <defs>
+                                <linearGradient id="footerBrand" x1="0" x2="1" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#00f0ff" />
+                                    <stop offset="100%" stop-color="#ff00d4" />
+                                </linearGradient>
+                            </defs>
+                            <polygon points="24,4 44,20 36,44 12,44 4,20"
+                                fill="none" stroke="url(#footerBrand)" stroke-width="2" />
+                            <text x="50%" y="58%" text-anchor="middle"
+                                font-family="Cinzel Decorative, serif"
+                                font-weight="900" font-size="14" fill="#fff">A</text>
+                        </svg>
+                    </span>
+                    <span class="footer__brand-text">Apex War Cup</span>
+                </a>
+
+                <nav class="footer__nav" aria-label="Footer navigation">
+                    <a href="#home" class="footer__nav-link" data-scroll>Home</a>
+                    <a href="#tournament" class="footer__nav-link" data-scroll>Tournament</a>
+                    <a href="#rules" class="footer__nav-link" data-scroll>Rules</a>
+                    <a href="#register" class="footer__nav-link" data-scroll>Register</a>
+                </nav>
+
+                <a href="https://www.instagram.com/veer.gaming.x?igsh=MTI3bWFpOXEyZnduNQ=="
+                   target="_blank" rel="noopener noreferrer" class="footer__social"
+                   aria-label="Follow Veer Gaming on Instagram">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                        <path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.42.56.22.96.48 1.38.9.42.42.68.82.9 1.38.17.42.37 1.06.42 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.42 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.17-1.06.37-2.23.42-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.42-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.17-.42-.37-1.06-.42-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.42-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.17 1.06-.37 2.23-.42C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.15 0-3.52 0-4.76.07-1.07.05-1.65.23-2.04.38-.51.2-.88.44-1.27.83-.39.39-.63.76-.83 1.27-.15.39-.33.97-.38 2.04C2.65 8.48 2.65 8.85 2.65 12s0 3.52.07 4.76c.05 1.07.23 1.65.38 2.04.2.51.44.88.83 1.27.39.39.76.63 1.27.83.39.15.97.33 2.04.38 1.24.06 1.61.07 4.76.07s3.52 0 4.76-.07c1.07-.05 1.65-.23 2.04-.38.51-.2.88-.44 1.27-.83.39-.39.63-.76.83-1.27.15-.39.33-.97.38-2.04.06-1.24.07-1.61.07-4.76s0-3.52-.07-4.76c-.05-1.07-.23-1.65-.38-2.04-.2-.51-.44-.88-.83-1.27-.39-.39-.76-.63-1.27-.83-.39-.15-.97-.33-2.04-.38C15.52 4 15.15 4 12 4z"/>
+                        <path fill="currentColor" d="M12 7.4a4.6 4.6 0 100 9.2 4.6 4.6 0 000-9.2zm0 1.8a2.8 2.8 0 110 5.6 2.8 2.8 0 010-5.6z"/>
+                        <circle fill="currentColor" cx="17.2" cy="6.8" r="1.1"/>
+                    </svg>
+                    <span>@veer.gaming.x</span>
+                </a>
+            </div>
+
+            <div class="footer__divider" aria-hidden="true">
+                <span class="footer__divider-line"></span>
+                <span class="footer__divider-mark">&#9670;</span>
+                <span class="footer__divider-line"></span>
+            </div>
+
+            <div class="footer__bottom">
+                <p class="footer__copy">
+                    &copy; <span id="footerYear">2026</span> Apex War Cup. All Rights Reserved.
+                </p>
+                <p class="footer__powered">
+                    Powered by
+                    <a href="https://www.instagram.com/veer.gaming.x?igsh=MTI3bWFpOXEyZnduNQ=="
+                       target="_blank" rel="noopener noreferrer" class="footer__powered-link">
+                        Veer Gaming
+                    </a>
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button class="back-to-top" id="backToTop" aria-label="Scroll back to top">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M5 15l7-7 7 7" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </button>
+
+    <!-- Main script -->
+    <script src="script.js"></script>
+</body>
+</html>
